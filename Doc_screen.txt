@@ -1,0 +1,23 @@
+1
+Durée : 13 secondes. C’est la valeur affichée à droite de la ligne du run, à côté de l’icône chronomètre.
+
+
+2
+
+
+3
+4
+
+
+Deux tests ont échoué :
+* test_is_valid_title_accepts_normal_title, tests/test_logic.py, ligne 13 : is_valid_title("Faire le TP1") renvoie False.
+* test_add_and_list_tasks, tests/test_api.py, ligne 29 : le POST renvoie 400 au lieu de 201, probablement à cause de la même validation.
+On les a trouvés grâce au bloc short test summary info, en fin de log.
+5
+
+6
+
+7
+
+Bug vu en cours .
+
