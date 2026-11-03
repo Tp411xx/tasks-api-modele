@@ -32,9 +32,6 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip #test
-          cache-dependency-path: |
-            requirements.txt
-            requirements-dev.txt
 
       - name: Installer les dépendances
         run: pip install -r requirements-dev.txt
