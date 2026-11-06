@@ -154,7 +154,20 @@ jobs:
           for i in $(seq 1 10); do
             if curl -fsS http://localhost:8000/health > /dev/null; then
               echo "Service en bonne santé"
-              curl -fsS
+              curl -fsS http://localhost:8000/version
+              echo
+              exit 0
+            fi
+            echo "Attente du démarrage ($i/10)..."
+            sleep 3
+          done
+          echo "Le service ne répond pas"
+          docker logs app
+          exit 1
+
+      - name: Arrêter le conteneur
+        if: always()
+        run: docker rm -f app || true
   update-config:
     needs: deploy-production
     if: startsWith(github.ref, 'refs/tags/v')
