@@ -181,6 +181,6 @@ jobs:
           cd config
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .               # TROU 5 : le fichier modifié, chemin depuis la racine de tasks-config
+          git add k8s/deployment.yaml               # TROU 5 : le fichier modifié, chemin depuis la racine de tasks-config
           git commit -m "Déploiement de tasks-api ${VERSION#v}"
           git push
