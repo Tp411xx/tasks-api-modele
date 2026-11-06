@@ -185,7 +185,7 @@ jobs:
         with:
           repository: tp411xx/tasks-config
           token: ${{ secrets.CONFIG_REPO_TOKEN }}
-          path: config
+          path: tasks-config
 
       - name: Mettre à jour la version de l'image
         run: bash scripts/set-image-tag.sh config/k8s/deployment.yaml "${VERSION#v}"
