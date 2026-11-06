@@ -169,9 +169,9 @@ jobs:
       - name: Récupérer le dépôt de configuration
         uses: actions/checkout@v6
         with:
-          repository: https://github.com/Tp411xx/tasks-config # TROU 3 : votre compte GitHub (minuscules)
+          repository: tp411xx/tasks-config # TROU 3 : votre compte GitHub (minuscules)
           token: ${{ secrets.CONFIG_REPO_TOKEN }}
-          path: "tasks-config" # TROU 4 : le dossier attendu par la commande suivante
+          path: tasks-config # TROU 4 : le dossier attendu par la commande suivante
 
       - name: Mettre à jour la version de l'image
         run: bash scripts/set-image-tag.sh config/k8s/deployment.yaml "${VERSION#v}"
