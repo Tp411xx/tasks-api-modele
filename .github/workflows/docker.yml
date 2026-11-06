@@ -155,3 +155,33 @@ jobs:
             if curl -fsS http://localhost:8000/health > /dev/null; then
               echo "Service en bonne santé"
               curl -fsS
+  update-config:
+    needs: deploy-production # TROU 1 : ce job démarre après quel job ?
+    if: startsWith(github.ref, 'refs/tags/v') # TROU 2 : uniquement sur un tag : regardez la ligne `if` de deploy-production ; si elle est écrite autrement, recopiez-la telle quelle à la place de cette ligne
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      VERSION: ${{ github.ref_name }} # le nom du tag, par exemple v0.2.0
+    steps:
+      - name: Récupérer le dépôt applicatif
+        uses: actions/checkout@v6 # même version que vos autres jobs
+
+      - name: Récupérer le dépôt de configuration
+        uses: actions/checkout@v6
+        with:
+          repository: tp411xx/tasks-config # TROU 3 : votre compte GitHub (minuscules)
+          token: ${{ secrets.CONFIG_REPO_TOKEN }}
+          path: "tasks-config" # TROU 4 : le dossier attendu par la commande suivante
+
+      - name: Mettre à jour la version de l'image
+        run: bash scripts/set-image-tag.sh config/k8s/deployment.yaml "${VERSION#v}"
+
+      - name: Commiter et pousser dans tasks-config
+        run: |
+          cd config
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add https://github.com/Tp411xx/tasks-config                # TROU 5 : le fichier modifié, chemin depuis la racine de tasks-config
+          git commit -m "Déploiement de tasks-api ${VERSION#v}"
+          git push
