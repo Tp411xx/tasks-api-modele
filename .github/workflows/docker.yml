@@ -119,7 +119,6 @@ jobs:
           echo "Le service ne répond pas"
           docker logs app
           exit 1
-
       - name: Arrêter le conteneur
         if: always()
         run: docker rm -f app || true
@@ -170,7 +169,7 @@ jobs:
       - name: Récupérer le dépôt de configuration
         uses: actions/checkout@v6
         with:
-          repository: tp411xx/tasks-config # TROU 3 : votre compte GitHub (minuscules)
+          repository: https://github.com/Tp411xx/tasks-config # TROU 3 : votre compte GitHub (minuscules)
           token: ${{ secrets.CONFIG_REPO_TOKEN }}
           path: "tasks-config" # TROU 4 : le dossier attendu par la commande suivante
 
@@ -182,6 +181,6 @@ jobs:
           cd config
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add https://github.com/Tp411xx/tasks-config                # TROU 5 : le fichier modifié, chemin depuis la racine de tasks-config
+          git add .               # TROU 5 : le fichier modifié, chemin depuis la racine de tasks-config
           git commit -m "Déploiement de tasks-api ${VERSION#v}"
           git push
